@@ -1,0 +1,36 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wordpress
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  labels:
+    name: wordpress
+spec:
+  project: infra
+  source:
+    repoURL: git@172.29.0.37:k8s-dev-team/argocd-app-config.git
+    targetRevision: HEAD 
+    path: wordpress-1
+  destination:
+    server: https://172.29.0.22:6443
+    namespace: default
+  syncPolicy:
+    automated: 
+      prune: true 
+      selfHeal: true
+      allowEmpty: false 
+    syncOptions:    
+    - Validate=true 
+    - CreateNamespace=true 
+    - PrunePropagationPolicy=foreground 
+    - PruneLast=true 
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s 
+        factor: 2
+        maxDuration: 3m 
+  revisionHistoryLimit: 10
