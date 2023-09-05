@@ -11,7 +11,7 @@ metadata:
 spec:
   project: infra
   source:
-    repoURL: git@172.29.0.37:k8s-dev-team/argocd-app-config.git
+    repoURL: https://github.com:kendops/wordpress.git
     targetRevision: HEAD 
     path: wordpress-1
   destination:
